@@ -6,6 +6,8 @@ Data is taken from DarkSky and Airly. If you set it up correctly, your API keys 
 
 ## Installation
 
+You'll need Python, version 2.7 is okay. Cache busting is implemented in PHP, but if you're not into that, you can modify the `index` file not to use it.
+
 1. Find your longitude and latitude and put them in `data/cron/callApis.py` as floats.
 1. Get [DarkSky API key](https://darksky.net/dev). Put it in `data/cron/callApis.py`.
 1. Get [Airly API key](https://developer.airly.eu/api). Also put it in `data/cron/callApis.py`.
