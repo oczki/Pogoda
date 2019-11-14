@@ -11,5 +11,6 @@ Data is taken from DarkSky and Airly. If you set it up correctly, your API keys 
 1. Get [Airly API key](https://developer.airly.eu/api). Also put it in `data/cron/callApis.py`.
 1. Get [Skycons](https://github.com/darkskyapp/skycons) and put `skycons.js` in `js/`.
 1. Set up your cron to call `data/cron/callApis.sh` once per 15 minutes or so.
+1. Optionally, set up `.htaccess` (or its equivalent) to accept gzip compression.
 
-You're done. Just don't call these APIs more than 1000 times a day, or you'll exceed their free daily quota.
+You're done. Just don't call these APIs more than 1000 times a day, or you'll exceed their free daily quota. Enabling compression will save you ~90% of bandwidth.
