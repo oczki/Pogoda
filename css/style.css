@@ -1,0 +1,364 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat:400';
+@import 'https://fonts.googleapis.com/css?family=Montserrat:700';
+
+:root {
+    font-size: 11pt;
+    --panel-width: 40rem;
+    --panel-height: 17rem;
+    --panel-padding: 1rem;
+    --panel-border-radius: 0.5rem;
+    --temperature-bar-height: 1.25rem;
+    --pollutant-bar-height: 0.8rem;
+    --label-offset-vertical: -1.6rem;
+    --label-offset-horizontal: 0.6rem;
+    --margin-between-days: 3.3rem;
+
+    --ribbon-wrap-width: 1rem;
+    --ribbon-wrap-height: 1.1rem;
+
+    --color-accent: #1e5799;
+    --color-positive: #278454;
+    --color-negative: #a93333;
+    --color-dimmed: #aaa;
+    --color-panel-bg: white;
+    --color-bar-bg: rgba(0, 0, 0, 0.03);
+    --color-white-bar-bg: rgba(255, 255, 255, 0.05);
+    --color-shadow: rgba(0, 0, 0, 0.07);
+}
+
+body {
+    margin: 0.5rem;
+    font-family: Montserrat, Verdana;
+    background: #efefef;
+    color: #333;
+}
+
+
+
+div.info-box {
+    width: var(--panel-width);
+    margin: var(--margin-between-days) auto 0 auto;
+    background: var(--color-panel-bg);
+    border-radius: var(--panel-border-radius);
+    position: relative;
+    display: grid;
+    grid-gap: 1rem;
+    box-shadow: 0 0.25rem 0.5rem 0 var(--color-shadow);
+}
+
+div.info-box:not(.current) {
+    grid-template-columns: [icon] 4rem [text] 1fr;
+    grid-template-rows: [top] auto [bar] var(--temperature-bar-height);
+    padding: var(--panel-padding);
+}
+
+div.info-box:before,
+div.info-box:after {
+    text-transform: uppercase;
+    font-weight: 700;
+    position: absolute;
+    top: var(--label-offset-vertical);
+}
+
+div.info-box:before {
+    content: attr(day-of-week);
+    left: var(--label-offset-horizontal);
+}
+
+div.info-box:after {
+    content: attr(day-of-month);
+    right: var(--label-offset-horizontal);
+    color: var(--color-dimmed);
+}
+
+div.info-box.shops-open:after {
+    content: "HANDLOWA";
+    color: var(--color-positive);
+}
+
+div.info-box.shops-closed:after {
+    content: "NIEHANDLOWA";
+    color: var(--color-negative);
+}
+
+div.info-box:not(.current) canvas {
+    grid-area: top / icon / span 2 / span 1;
+    width: 3.5rem;
+    margin: 0 auto;
+}
+
+div.info-box:not(.current) span.summary {
+    grid-area: top / text / span 1 / span 1;
+}
+
+div.temperature-range {
+    grid-area: bar / text / span 1 / span 1;
+    display: grid;
+    grid-auto-flow: column;
+    margin: 0;
+}
+
+div.temperature-range span.bar {
+    height: var(--temperature-bar-height);
+    background: var(--color-accent);
+    border-radius: var(--panel-width);
+    line-height: var(--temperature-bar-height);
+    position: relative;
+    box-shadow: 0 0 0.4rem 0.25rem var(--color-panel-bg);
+}
+
+div.temperature-range span.bar:before,
+div.temperature-range span.bar:after {
+    position: absolute;
+    color: white;
+    width: 2rem;
+    font-size: 90%;
+}
+
+div.temperature-range span.bar:before {
+    content: attr(temp-min) "˚";
+    left: 0.5rem;
+}
+
+div.temperature-range span.bar:after {
+    content: attr(temp-max) "˚";
+    text-align: right;
+    right: 0.3rem;
+}
+
+div.temperature-range span.bar.min-equals-max:before {
+    content: '';
+}
+
+div.temperature-range span.bar.min-equals-max:after {
+    text-align: center;
+    width: 100%;
+    right: 0;
+}
+
+div.temperature-range span.bg {
+    height: var(--temperature-bar-height);
+    background: var(--color-bar-bg);
+    border-radius: var(--panel-width);
+    grid-area: 1 / 1 / -1 / -1;
+}
+
+
+
+div.info-box.current {
+    width: calc(2 * var(--panel-padding) + var(--panel-width));
+    //height: var(--panel-height);
+}
+
+div.info-box.current div.weather {
+    display: grid;
+    grid-template-rows: [top] auto [hourly-summary] auto [measurements] 2rem [bottom];
+    grid-template-columns: [left] 7rem [temperature] 5rem [summary] 1fr [right];
+    grid-gap: 0.5rem;
+    padding: var(--panel-padding);
+}
+
+div.info-box.current div.weather canvas {
+    grid-area: top / left / measurements / temperature;
+    width: 6rem;
+    margin: 0 auto;
+}
+
+//div.current div.weather * { box-sizing: border-box; border: 1px solid red; }
+
+div.info-box.current div.weather span.temperature {
+    grid-area: top / temperature / measurements / summary;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+div.info-box.current div.weather span.temperature span {
+    position: relative;
+}
+
+div.info-box.current div.weather span.temperature span:after {
+    content: "˚C";
+    font-size: 40%;
+    position: absolute;
+    top: 0.3em;
+    right: -1.2em;
+}
+
+div.info-box.current div.weather span.summary {
+    grid-column: summary / right;
+    margin-left: 0.5rem;
+}
+
+div.info-box.current div.weather span.summary.currently {
+    grid-row: top / hourly-summary;
+    padding-top: 0.5rem;
+    font-size: 150%;
+    color: var(--color-accent);
+}
+
+div.info-box.current div.weather span.summary.hourly {
+    grid-row: hourly-summary / measurements;
+}
+
+div.info-box.current div.weather div.hourly-bar {
+    grid-area: measurements / left / bottom / right;
+    display: grid;
+    grid-template-rows: 2rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+div.info-box.current div.weather div.hourly-bar div {
+    height: 2rem;
+}
+
+div.info-box.current div.weather div.hourly-bar div.clear {
+    background: #dedede;
+}
+
+div.info-box.current div.weather div.hourly-bar div.partly-cloudy {
+    background: #c5c5c5;
+}
+
+div.info-box.current div.weather div.hourly-bar div.cloudy {
+    background: #9c9c9c;
+}
+
+div.info-box.current div.weather div.hourly-bar div.rain {
+    background: #77a5da;
+}
+
+div.info-box.current div.weather div.hourly-bar div.fog {
+    background: repeating-linear-gradient(to bottom, darkgrey 0, darkgrey 2px, silver 4px, silver 6px);
+}
+
+
+
+
+div.air-quality {
+    background: gray;
+    color: white;
+    display: grid;
+    height: fit-content;
+    padding: var(--panel-padding);
+    grid-template-rows: repeat(2, var(--pollutant-bar-height));
+    grid-template-columns: [index] auto [pollutant] auto [bar] 1fr [percent] auto [end];
+    grid-gap: 0.5rem;
+    border-bottom-left-radius: var(--panel-border-radius);
+    border-bottom-right-radius: var(--panel-border-radius);
+}
+
+div.air-quality span.value {
+    grid-area: 1 / index / span 2 / pollutant;
+    font-size: 2.5rem;
+    line-height: 2rem;
+    position: relative;
+    margin-right: 3.5rem;
+}
+
+div.air-quality span.value:before {
+    content: "CAQI";
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+    position: absolute;
+    top: 0;
+    right: -2.5rem;
+}
+
+div.air-quality span.pollutant {
+    display: block;
+    height: var(--pollutant-bar-height);
+    line-height: var(--pollutant-bar-height);
+    font-size: 0.85rem;
+}
+
+div.air-quality span.pollutant.name {
+    grid-area: 1 / pollutant / span 1 / bar;
+}
+
+div.air-quality span.pollutant.bar {
+    grid-area: 1 / bar / span 1 / percent;
+    display: block;
+    background: var(--color-panel-bg);
+    height: var(--pollutant-bar-height);
+    border-radius: var(--panel-width);
+}
+
+div.air-quality span.pollutant.bg {
+    grid-area: 1 / bar / span 1 / percent;
+    display: block;
+    background: var(--color-white-bar-bg);
+    height: var(--pollutant-bar-height);
+    border-radius: var(--panel-width);
+}
+
+div.air-quality span.pollutant.percentage {
+    grid-area: 1 / percent / span 1 / end;
+    text-align: right;
+}
+
+div.air-quality span.pollutant[pollutant="PM10"].name {
+    grid-area: 2 / pollutant / span 1 / bar;
+}
+
+div.air-quality span.pollutant[pollutant="PM10"].bar {
+    grid-area: 2 / bar / span 1 / percent;
+}
+
+div.air-quality span.pollutant[pollutant="PM10"].bg {
+    grid-area: 2 / bar / span 1 / percent;
+}
+
+div.air-quality span.pollutant[pollutant="PM10"].percentage {
+    grid-area: 2 / percent / span 1 / end;
+}
+
+div.air-quality.very-low,
+div.air-quality.very-low:after {
+    background: #399323;
+}
+
+div.air-quality.low,
+div.air-quality.low:after {
+    background: #949E0C;
+}
+
+div.air-quality.medium,
+div.air-quality.medium:after {
+    background: #C1970B;
+}
+
+div.air-quality.high,
+div.air-quality.high:after {
+    background: #D16623;
+}
+
+div.air-quality.very-high,
+div.air-quality.very-high:after {
+    background: #D62A2A;
+}
+
+div.air-quality.extreme,
+div.air-quality.extreme:after {
+    background: #A50052;
+}
+
+div.air-quality.airmageddon,
+div.air-quality.airmageddon:after {
+    background: #6D006D;
+}
+
+
+@media (min-width: 40em) and (max-width: 60em) {
+:root {
+    font-size: 10pt;
+}
+}
+
+@media (max-width: 40em) {
+:root {
+    --panel-width: 26rem;
+    font-size: 9pt;
+}
+}
