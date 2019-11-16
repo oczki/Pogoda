@@ -33,8 +33,6 @@ body {
     color: #333;
 }
 
-
-
 div.info-box {
     width: var(--panel-width);
     margin: var(--margin-between-days) auto 0 auto;
@@ -143,31 +141,28 @@ div.temperature-range span.bg {
     grid-area: 1 / 1 / -1 / -1;
 }
 
-
-
 div.info-box.current {
     width: calc(2 * var(--panel-padding) + var(--panel-width));
-    //height: var(--panel-height);
 }
 
 div.info-box.current div.weather {
     display: grid;
-    grid-template-rows: [top] auto [hourly-summary] auto [measurements] 2rem [bottom];
-    grid-template-columns: [left] 7rem [temperature] 5rem [summary] 1fr [right];
+    grid-template-rows: auto 2rem;
+    grid-template-columns: 7rem 5rem 1fr;
+    grid-template-areas: "icon temperature summary"
+                         "bar  bar         bar";
     grid-gap: 0.5rem;
     padding: var(--panel-padding);
 }
 
 div.info-box.current div.weather canvas {
-    grid-area: top / left / measurements / temperature;
+    grid-area: icon;
     width: 6rem;
     margin: 0 auto;
 }
 
-//div.current div.weather * { box-sizing: border-box; border: 1px solid red; }
-
 div.info-box.current div.weather span.temperature {
-    grid-area: top / temperature / measurements / summary;
+    grid-area: temperature;
     font-size: 3rem;
     font-weight: 700;
     color: var(--color-accent);
@@ -186,23 +181,15 @@ div.info-box.current div.weather span.temperature span:after {
 }
 
 div.info-box.current div.weather span.summary {
-    grid-column: summary / right;
+    grid-area: summary;
     margin-left: 0.5rem;
-}
-
-div.info-box.current div.weather span.summary.currently {
-    grid-row: top / hourly-summary;
     padding-top: 0.5rem;
     font-size: 150%;
     color: var(--color-accent);
 }
 
-div.info-box.current div.weather span.summary.hourly {
-    grid-row: hourly-summary / measurements;
-}
-
 div.info-box.current div.weather div.hourly-bar {
-    grid-area: measurements / left / bottom / right;
+    grid-area: bar;
     display: grid;
     grid-template-rows: 2rem;
     border-radius: 0.25rem;
@@ -233,9 +220,6 @@ div.info-box.current div.weather div.hourly-bar div.fog {
     background: repeating-linear-gradient(to bottom, darkgrey 0, darkgrey 2px, silver 4px, silver 6px);
 }
 
-
-
-
 div.air-quality {
     background: gray;
     color: white;
@@ -243,14 +227,16 @@ div.air-quality {
     height: fit-content;
     padding: var(--panel-padding);
     grid-template-rows: repeat(2, var(--pollutant-bar-height));
-    grid-template-columns: [index] auto [pollutant] auto [bar] 1fr [percent] auto [end];
+    grid-template-columns: auto auto 1fr auto;
+    grid-template-areas: "index pm25-name pm25-bar pm25-percent"
+                         "index pm10-name pm10-bar pm10-percent";
     grid-gap: 0.5rem;
     border-bottom-left-radius: var(--panel-border-radius);
     border-bottom-right-radius: var(--panel-border-radius);
 }
 
 div.air-quality span.value {
-    grid-area: 1 / index / span 2 / pollutant;
+    grid-area: index;
     font-size: 2.5rem;
     line-height: 2rem;
     position: relative;
@@ -274,11 +260,11 @@ div.air-quality span.pollutant {
 }
 
 div.air-quality span.pollutant.name {
-    grid-area: 1 / pollutant / span 1 / bar;
+    grid-area: pm25-name;
 }
 
 div.air-quality span.pollutant.bar {
-    grid-area: 1 / bar / span 1 / percent;
+    grid-area: pm25-bar;
     display: block;
     background: var(--color-panel-bg);
     height: var(--pollutant-bar-height);
@@ -286,7 +272,7 @@ div.air-quality span.pollutant.bar {
 }
 
 div.air-quality span.pollutant.bg {
-    grid-area: 1 / bar / span 1 / percent;
+    grid-area: pm25-bar;
     display: block;
     background: var(--color-white-bar-bg);
     height: var(--pollutant-bar-height);
@@ -294,24 +280,24 @@ div.air-quality span.pollutant.bg {
 }
 
 div.air-quality span.pollutant.percentage {
-    grid-area: 1 / percent / span 1 / end;
+    grid-area: pm25-percent;
     text-align: right;
 }
 
 div.air-quality span.pollutant[pollutant="PM10"].name {
-    grid-area: 2 / pollutant / span 1 / bar;
+    grid-area: pm10-name;
 }
 
 div.air-quality span.pollutant[pollutant="PM10"].bar {
-    grid-area: 2 / bar / span 1 / percent;
+    grid-area: pm10-bar;
 }
 
 div.air-quality span.pollutant[pollutant="PM10"].bg {
-    grid-area: 2 / bar / span 1 / percent;
+    grid-area: pm10-bar;
 }
 
 div.air-quality span.pollutant[pollutant="PM10"].percentage {
-    grid-area: 2 / percent / span 1 / end;
+    grid-area: pm10-percent;
 }
 
 div.air-quality.very-low,
@@ -348,7 +334,6 @@ div.air-quality.airmageddon,
 div.air-quality.airmageddon:after {
     background: #6D006D;
 }
-
 
 @media (min-width: 40em) and (max-width: 60em) {
 :root {

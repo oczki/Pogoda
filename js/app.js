@@ -83,11 +83,9 @@ function generateIcon(day, size=64) {
     return icon;
 }
 
-function generateSummary(day, summaryType="daily") {
+function generateSummary(day,) {
     let summary = document.createElement("span");
     summary.classList.add("summary");
-    summary.classList.add(summaryType);
-    //summary.innerHTML = day.summary.replace(/(.*)\./, "$1");
     summary.innerHTML = day.summary;
     return summary;
 }
@@ -240,15 +238,13 @@ function generateCurrentWeather() {
     temperatureValue.innerHTML = Math.round(darksky.currently.temperature);
     temperature.appendChild(temperatureValue);
 
-    let summaryNow = generateSummary(darksky.currently, "currently");
-    let summaryHourly = generateSummary(darksky.hourly, "hourly");
+    let summary = generateSummary(darksky.currently);
     
     let hourlyBar = generateHourlyBar(darksky.hourly);
 
     box.appendChild(icon);
     box.appendChild(temperature);
-    box.appendChild(summaryNow);
-    box.appendChild(summaryHourly);
+    box.appendChild(summary);
     box.appendChild(hourlyBar);
 
     return box;
