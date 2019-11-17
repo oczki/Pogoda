@@ -33,7 +33,9 @@ class Service:
         self.headers.update(headers)
 
     def call_api(self):
-        response = requests.get(self.url, params=self.params, headers=self.headers)
+        response = requests.get(
+            self.url, params=self.params, headers=self.headers
+        )
         response.encoding = "utf-8"
         return response.json()
 
