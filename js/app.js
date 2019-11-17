@@ -46,16 +46,11 @@ function timestampToShortDate(timestamp) {
 }
 
 function timestampToDayName(timestamp) {
-    let output = "";
     const day = getCorrectedDay(new Date(timestamp * 1000));
-    const now = getCorrectedDay(new Date());
-    if (now.toISOString().slice(0,10) === day.toISOString().slice(0,10))
-        output += "Dzisiaj – ";
-
     let names = [];
-    names[0] = "Niedziela"; names[1] = "Poniedziałek"; names[2] = "Wtorek"; names[3] = "Środa";
-    names[4] = "Czwartek"; names[5] = "Piątek"; names[6] = "Sobota";
-    return output + names[day.getDay()];
+    names[0] = "Ndz"; names[1] = "Pon"; names[2] = "Wto"; names[3] = "Śro";
+    names[4] = "Czw"; names[5] = "Pią"; names[6] = "Sob";
+    return names[day.getDay()];
 }
 
 function getColor(day) {
@@ -83,11 +78,15 @@ function generateIcon(day, size=64) {
     return icon;
 }
 
-function generateSummary(day,) {
-    let summary = document.createElement("span");
-    summary.classList.add("summary");
-    summary.innerHTML = day.summary;
-    return summary;
+function generateSpan(className, content) {
+    let span = document.createElement("span");
+    span.classList.add(className);
+    span.innerHTML = content;
+    return span;
+}
+
+function generateSummary(day) {
+    return generateSpan("summary", day.summary);
 }
 
 function generateTemperatureBar(day, temperatureRange) {
@@ -97,21 +96,15 @@ function generateTemperatureBar(day, temperatureRange) {
 
     let bar = document.createElement("span");
     bar.classList.add("bar");
-    if (tempMax - tempMin <= 1)
-        bar.classList.add("min-equals-max");
     bar.setAttribute("temp-min", tempMin);
     bar.setAttribute("temp-max", tempMax);
     const columnStart = 1 + tempMin - rangeMin;
     const columnEnd = columnStart + tempMax - tempMin;
     bar.style.gridArea = `1 / ${columnStart} / -1 / ${columnEnd}`;
-    
-    let bg = document.createElement("span");
-    bg.classList.add("bg");
 
     let container = document.createElement("div");
     container.classList.add("temperature-range");
     container.appendChild(bar);
-    container.appendChild(bg);
 
     return container;
 }
@@ -122,7 +115,6 @@ function appendWeatherBox(day, tempMinMax) {
     if (isSunday(day))
         box.classList.add(getClassForSunday(day));
     box.appendChild(generateIcon(day, 64));
-    box.appendChild(generateSummary(day));
     box.appendChild(generateTemperatureBar(day, tempMinMax));
     box.setAttribute("day-of-week", timestampToDayName(day.time));
     box.setAttribute("day-of-month", timestampToShortDate(day.time));
