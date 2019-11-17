@@ -8,7 +8,7 @@
     --panel-padding: 1rem;
     --panel-border-radius: 0.5rem;
     --temperature-bar-height: 1.25rem;
-    --pollutant-bar-height: 0.9rem;
+    --pollutant-bar-height: 0.85rem;
     --margin-between-days: 1.4rem;
     --color-text: #333;
     --color-accent: #1e5799;
@@ -66,7 +66,9 @@ div.info-box:not(.current):after {
 }
 
 div.info-box:not(.current)[day-of-week="Sob"]:before,
-div.info-box:not(.current)[day-of-week="Sob"]:after {
+div.info-box:not(.current)[day-of-week="Sob"]:after,
+div.info-box:not(.current)[day-of-week="Ndz"]:before,
+div.info-box:not(.current)[day-of-week="Ndz"]:after {
     color: var(--color-dimmed);
 }
 
@@ -221,16 +223,16 @@ div.air-quality {
 
 div.air-quality span.value {
     grid-area: index;
-    font-size: 2.5rem;
-    line-height: 2rem;
+    font-size: 2.8rem;
+    line-height: 2.2rem;
     position: relative;
     margin-right: 3.5rem;
 }
 
 div.air-quality span.value:before {
     content: "CAQI";
-    font-size: 0.9rem;
-    line-height: 0.9rem;
+    font-size: 0.85rem;
+    line-height: 0.95rem;
     position: absolute;
     top: 0;
     right: -2.5rem;
@@ -239,8 +241,8 @@ div.air-quality span.value:before {
 div.air-quality span.pollutant {
     display: block;
     height: var(--pollutant-bar-height);
-    line-height: var(--pollutant-bar-height);
     font-size: var(--pollutant-bar-height);
+    line-height: 0.9rem;
 }
 
 div.air-quality span.pollutant.name {
