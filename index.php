@@ -21,8 +21,8 @@ function addJs($path) {
         addJs('data/data');
         addJs('data/sundays');
         addJs('js/skycons');
-        addJs("js/app");
-        addCss("style");
+        addJs('js/app');
+        addCss('style');
         ?>
     </head>
     <body>
