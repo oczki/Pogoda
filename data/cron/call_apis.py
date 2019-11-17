@@ -23,16 +23,17 @@ class Service:
         self.name = name
         self.url = ""
         self.params = {}
-        self.headers = {"Accept": "application/json",
-                        "Accept-Encoding": "gzip",
-                        "Accept-Language": "pl"}
+        self.headers = {
+            "Accept": "application/json",
+            "Accept-Encoding": "gzip",
+            "Accept-Language": "pl",
+        }
 
     def set_headers(self, headers):
         self.headers.update(headers)
 
     def call_api(self):
-        response = requests.get(self.url, params=self.params,
-                                headers=self.headers)
+        response = requests.get(self.url, params=self.params, headers=self.headers)
         response.encoding = "utf-8"
         return response.json()
 
@@ -51,8 +52,14 @@ class Service:
 
 
 darksky = Service("darksky")
-darksky.url = "https://api.darksky.net/forecast/" + darksky_apikey + \
-              "/" + str(latitude) + "," + str(longitude)
+darksky.url = (
+    "https://api.darksky.net/forecast/"
+    + darksky_apikey
+    + "/"
+    + str(latitude)
+    + ","
+    + str(longitude)
+)
 darksky.params = {"lang": "pl", "units": "si"}
 
 airly = Service("airly")
