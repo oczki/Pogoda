@@ -41,7 +41,7 @@ div.info-box:not(.current) {
     grid-template-columns: 3rem 2.5rem 1fr;
     grid-template-areas: "day icon bar";
     align-items: center;
-    width: calc(var(--panel-width) - var(--panel-padding) * 2);
+    width: calc(var(--panel-width) - var(--panel-padding));
 }
 
 div.info-box:not(.current):before,
@@ -240,7 +240,7 @@ div.air-quality span.pollutant {
     display: block;
     height: var(--pollutant-bar-height);
     line-height: var(--pollutant-bar-height);
-    font-size: 0.9rem;
+    font-size: var(--pollutant-bar-height);
 }
 
 div.air-quality span.pollutant.name {
@@ -321,7 +321,7 @@ div.air-quality.airmageddon:after {
 
 @media (max-width: 40em) {
 :root {
-    --panel-width: 26rem;
+    --panel-width: 28rem;
     font-size: 9pt;
 }
 }

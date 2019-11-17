@@ -39,8 +39,15 @@ function getCorrectedDay(day) {
     return new Date(new Date(day).getTime() - (new Date(day).getTimezoneOffset() * 60000));
 }
 
+function areDatesEqual(one, two) {
+    return (one.toISOString().slice(0,10) === two.toISOString().slice(0,10));
+}
+
 function timestampToShortDate(timestamp) {
     const date = getCorrectedDay(new Date(timestamp * 1000));
+    const now = getCorrectedDay(new Date());
+    if (areDatesEqual(date, now))
+        return "Dziś";
     const months = [ "Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru" ];
     return date.getDate() + " " + months[date.getMonth()];
 }
