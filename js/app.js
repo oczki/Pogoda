@@ -48,7 +48,8 @@ function timestampToShortDate(timestamp) {
     const now = getCorrectedDay(new Date());
     if (areDatesEqual(date, now))
         return "Dziś";
-    const months = [ "Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru" ];
+    const months = [ "Sty", "Lut", "Mar", "Kwi", "Maj", "Cze",
+                     "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru" ];
     return date.getDate() + " " + months[date.getMonth()];
 }
 
@@ -141,9 +142,9 @@ function getTemperatureRange(daily) {
 function getAirlyMeasurements() {
     const level = airly.current.indexes[0].level.replace(/_/g, "-").toLowerCase();
     const value = airly.current.indexes[0].value;
-    const pm25percent = airly.current.standards.filter(x => x.pollutant === "PM25")[0].percent;
-    const pm10percent = airly.current.standards.filter(x => x.pollutant === "PM10")[0].percent;
-    return [ level, value, Math.round(pm25percent), Math.round(pm10percent) ];
+    const pm25 = airly.current.standards.filter(x => x.pollutant === "PM25")[0].percent;
+    const pm10 = airly.current.standards.filter(x => x.pollutant === "PM10")[0].percent;
+    return [ level, value, Math.round(pm25), Math.round(pm10) ];
 }
 
 function appendPollutantBar(rootNode, pollutant, percentage) {
