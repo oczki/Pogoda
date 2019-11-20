@@ -80,7 +80,7 @@ function getColor(day) {
 function generateIcon(day, size=64) {
     let icon = document.createElement("canvas");
     icon.width = icon.height = size;
-    let skycons = new Skycons({ "color": "#1e5799" });
+    let skycons = new Skycons({ "color": "#333" });
     skycons.add(icon, day.icon);
     skycons.play();
     return icon;
@@ -109,6 +109,7 @@ function generateTemperatureBar(day, temperatureRange) {
     const columnStart = 1 + tempMin - rangeMin;
     const columnEnd = columnStart + tempMax - tempMin;
     bar.style.gridArea = `1 / ${columnStart} / -1 / ${columnEnd}`;
+    bar.style.background = generateGradient(tempMin, tempMax);
 
     let container = document.createElement("div");
     container.classList.add("temperature-range");
