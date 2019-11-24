@@ -21,7 +21,8 @@ function addJs($path) {
         addJs('data/data');
         addJs('data/sundays');
         addJs('js/skycons');
-        addJs('js/color-interpolation');
+        addJs('js/color');
+        addJs('js/value-colorization');
         addJs('js/app');
         addCss('style');
         ?>
