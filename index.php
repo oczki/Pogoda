@@ -20,6 +20,7 @@ function addJs($path) {
         <?php
         addJs('data/data');
         addJs('data/sundays');
+        addJs('js/config');
         addJs('js/skycons');
         addJs('js/color');
         addJs('js/value-colorization');

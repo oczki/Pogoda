@@ -39,18 +39,7 @@ class ValueColorant {
 
 class TemperatureColorant {
     constructor() {
-        this.lut = new Map([
-            [-30, "#1C0A8A"],
-            [-20, "#2F2BBD"],
-            [-10, "#0684BE"],
-            [  0, "#14B39D"],
-            [ 10, "#75B340"],
-            [ 20, "#B9A700"],
-            [ 30, "#BB4400"],
-            [ 40, "#C30015"],
-            [ 50, "#9E0061"]
-        ]);
-        this.colorant = new ValueColorant(this.lut);
+        this.colorant = new ValueColorant(temperatureColors);
     }
 
     colorOf(temperature) {
@@ -85,18 +74,7 @@ class TemperatureColorant {
 
 class AirPollutionColorant {
     constructor() {
-        this.lut = new Map([
-            [  5, "#399323"],
-            [ 20, "#669818"],
-            [ 35, "#949E0C"],
-            [ 50, "#C1970B"],
-            [ 65, "#D16623"],
-            [ 80, "#D62A2A"],
-            [100, "#A50052"],
-            [125, "#6D006D"],
-            [160, "#000000"]
-        ]);
-        this.colorant = new ValueColorant(this.lut);
+        this.colorant = new ValueColorant(airPollutionColors);
     }
 
     colorOf(caqi) {

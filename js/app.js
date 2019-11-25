@@ -56,31 +56,15 @@ function timestampToShortDate(timestamp) {
 function timestampToDayName(timestamp) {
     const day = getCorrectedDay(new Date(timestamp * 1000));
     let names = [];
-    names[0] = "Ndz"; names[1] = "Pon"; names[2] = "Wto"; names[3] = "Śro";
-    names[4] = "Czw"; names[5] = "Pią"; names[6] = "Sob";
+    names[0] = "Nd"; names[1] = "Pn"; names[2] = "Wt"; names[3] = "Śr";
+    names[4] = "Cz"; names[5] = "Pt"; names[6] = "Sb";
     return names[day.getDay()];
-}
-
-function getColor(day) {
-    let colors = {};
-    colors["clear-day"] = "orange";
-    colors["clear-night"] = "blue";
-    colors["rain"] = "cyan";
-    colors["snow"] = "silver";
-    colors["sleet"] = "teal";
-    colors["wind"] = "red";
-    colors["fog"] = "gray";
-    colors["cloudy"] = "#666";
-    colors["partly-cloudy-day"] = "yellow";
-    colors["partly-cloudy-night"] = "green";
-
-    return colors[day.icon];
 }
 
 function generateIcon(day, size=64) {
     let icon = document.createElement("canvas");
     icon.width = icon.height = size;
-    let skycons = new Skycons({ "color": "#333" });
+    let skycons = new Skycons(skyconsColors());
     skycons.add(icon, day.icon);
     skycons.play();
     return icon;
@@ -105,14 +89,15 @@ function generateTemperatureBar(day, temperatureRange) {
 
     let bar = document.createElement("span");
     bar.classList.add("bar");
+    bar.classList.add(`day-${day.time}`);
     bar.setAttribute("temp-min", tempMin);
     bar.setAttribute("temp-max", tempMax);
-    bar.setAttribute("temp-min-color", darken(colorant.colorOf(tempMin)).hex);
-    bar.setAttribute("temp-max-color", darken(colorant.colorOf(tempMax)).hex);
     const columnStart = 1 + tempMin - rangeMin;
     const columnEnd = columnStart + tempMax - tempMin;
     bar.style.gridArea = `1 / ${columnStart} / -1 / ${columnEnd}`;
     bar.style.background = colorant.gradient(tempMin, tempMax);
+    applyCss(`.day-${day.time}:before { color: ${darken(colorant.colorOf(tempMin), 0.2).hex}; }
+.day-${day.time}:after  { color: ${darken(colorant.colorOf(tempMax), 0.2).hex}; }`);
 
     let container = document.createElement("div");
     container.classList.add("temperature-range");
@@ -264,9 +249,6 @@ function generateMainInfo() {
     document.body.appendChild(container);
 }
 
-function generateWeeklySummary() { // !!!
-}
-
 function generateDailyWeather() {
     const daily = darksky.daily.data;
     const tempMinMax = getTemperatureRange(daily);
@@ -282,7 +264,6 @@ function generateFooter() { // !!!
 
 function init() {
     generateMainInfo();
-    generateWeeklySummary();
     generateDailyWeather();
     generateFooter();
 }
