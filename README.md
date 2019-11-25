@@ -10,6 +10,8 @@ Wyświetla prostą stronę z prognozą pogody i zanieczyszczeniem powietrza dla 
 
 Dane pobierane są z DarkSky oraz Airly. Ich klucze API są trzymane w backendzie, zaś zwracane informacje o lokalizacji – usuwane z wynikowego JSONa.
 
+Ikony to [kolorowe Skycons](https://github.com/maxdow/skycons) ze zmodyfikowanymi odcieniami, lepiej widocznymi na szarym tle.
+
 Używa jednostek SI. Jeśli rozumiesz tekst jaki właśnie czytasz, prawdopodobnie właśnie tych jednostek się spodziewasz.
 
 ## Instalacja
@@ -19,7 +21,6 @@ Wymagane składniki to Python 2.7+ dla odpytywań API, cron wołający plik shel
 1. Do pliku `data/cron/call_apis.py` wpisz żądaną lokalizację – long i lat – jako float.
 1. Swój [klucz API DarkSky](https://darksky.net/dev) również wpisz do `data/cron/call_apis.py`.
 1. Swój [klucz API Airly](https://developer.airly.eu/api) tak samo wpisz do `data/cron/call_apis.py`.
-1. Z repo [Skycons](https://github.com/darkskyapp/skycons) zabierz `skycons.js` i wrzuć do `js/`.
 1. Ustaw crontab tak, by `data/cron/call_apis` był wołany raz na 15 minut.
 1. Opcjonalnie: Skonfiguruj `.htaccess` (albo jego odpowiednik), by serwer akceptował kompresję gzip.
 
@@ -33,6 +34,8 @@ Renders a minimal website with current weather and air pollution data, all for a
 
 Data is taken from DarkSky and Airly. If you set it up correctly, your API keys for these services will not be exposed to curious visitors, and neither will your location.
 
+Icons were taken from [colored Skycons](https://github.com/maxdow/skycons), adjusted for gray background.
+
 Uses SI units. Look up respective API docs on how to change that to ones you prefer.
 
 ## Installation
@@ -42,7 +45,6 @@ You'll need Python; version 2.7 is okay. Cache busting is implemented in PHP by 
 1. Find your longitude and latitude and put them in `data/cron/call_apis.py` as floats.
 1. Get [DarkSky API key](https://darksky.net/dev). Put it in `data/cron/call_apis.py`.
 1. Get [Airly API key](https://developer.airly.eu/api). Also put it in `data/cron/call_apis.py`.
-1. Get [Skycons](https://github.com/darkskyapp/skycons) and put `skycons.js` in `js/`.
 1. Set up your cron to call `data/cron/call_apis` once per 15 minutes or so.
 1. Optionally, set up `.htaccess` (or its equivalent) to accept gzip compression.
 
