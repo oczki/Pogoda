@@ -11,7 +11,7 @@
     --pollutant-bar-height: 0.85rem;
     --margin-between-days: 1.4rem;
     --color-text: #333;
-    --color-accent: #1e5799;
+    --color-accent: #333;/*#1e5799;*/
     --color-dimmed: rgba(0, 0, 0, 0.5);
     --color-positive: #278454;
     --color-negative: #a93333;
@@ -278,41 +278,6 @@ div.air-quality span.pollutant[pollutant="PM10"].bg {
 
 div.air-quality span.pollutant[pollutant="PM10"].percentage {
     grid-area: pm10-percent;
-}
-
-div.air-quality.very-low,
-div.air-quality.very-low:after {
-    background: #399323;
-}
-
-div.air-quality.low,
-div.air-quality.low:after {
-    background: #949E0C;
-}
-
-div.air-quality.medium,
-div.air-quality.medium:after {
-    background: #C1970B;
-}
-
-div.air-quality.high,
-div.air-quality.high:after {
-    background: #D16623;
-}
-
-div.air-quality.very-high,
-div.air-quality.very-high:after {
-    background: #D62A2A;
-}
-
-div.air-quality.extreme,
-div.air-quality.extreme:after {
-    background: #A50052;
-}
-
-div.air-quality.airmageddon,
-div.air-quality.airmageddon:after {
-    background: #6D006D;
 }
 
 @media (min-width: 40em) and (max-width: 60em) {

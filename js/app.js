@@ -101,15 +101,18 @@ function generateTemperatureBar(day, temperatureRange) {
     const rangeMin = temperatureRange[0];
     const tempMin = Math.round(day.temperatureMin);
     const tempMax = Math.round(day.temperatureMax);
+    const colorant = new TemperatureColorant();
 
     let bar = document.createElement("span");
     bar.classList.add("bar");
     bar.setAttribute("temp-min", tempMin);
     bar.setAttribute("temp-max", tempMax);
+    bar.setAttribute("temp-min-color", darken(colorant.colorOf(tempMin)).hex);
+    bar.setAttribute("temp-max-color", darken(colorant.colorOf(tempMax)).hex);
     const columnStart = 1 + tempMin - rangeMin;
     const columnEnd = columnStart + tempMax - tempMin;
     bar.style.gridArea = `1 / ${columnStart} / -1 / ${columnEnd}`;
-    bar.style.background = generateGradient(tempMin, tempMax);
+    bar.style.background = colorant.gradient(tempMin, tempMax);
 
     let container = document.createElement("div");
     container.classList.add("temperature-range");
@@ -183,7 +186,7 @@ function generateAir() {
     
     let air = document.createElement("div");
     air.classList.add("air-quality");
-    air.classList.add(level);
+    air.style.background = new AirPollutionColorant().colorOf(value).hex;
     
     let index = document.createElement("span");
     index.classList.add("value");
