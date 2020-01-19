@@ -33,5 +33,12 @@ function addJs($path) {
         ?>
     </head>
     <body>
+        <div id="main">
+        </div>
+        <div id="footer">
+            <span id="github-link"><a href="https://github.com/tehoko/Pogoda">GitHub</a></span>
+            <span id="darksky-link"><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></span>
+            <span id="airly-link"><a href="https://airly.eu/">Dane z Airly</a></span>
+        </div>
     </body>
 </html>

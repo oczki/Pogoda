@@ -239,6 +239,32 @@ div.air-quality span.percentage-unit {
     margin-left: 0.25rem;
 }
 
+div#footer {
+    width: var(--panel-width);
+    margin: var(--margin-between-days) auto 0 auto;
+    display: grid;
+    grid-template-areas: "github darksky airly";
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-shadow);
+}
+
+a:visited {
+    color: var(--color-accent);
+}
+
+div#footer span#github-link {
+    grid-area: github;
+}
+
+div#footer span#darksky-link {
+    grid-area: darksky;
+}
+
+div#footer span#airly-link {
+    grid-area: airly;
+}
+
 @media (min-width: 50em) and (max-width: 60em) {
 :root {
     font-size: 10pt;

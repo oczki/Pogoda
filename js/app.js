@@ -105,7 +105,7 @@ function appendWeatherBox(day, tempMinMax) {
     box.appendChild(generateIcon(day, 64));
     box.appendChild(generateTemperatureBar(day, tempMinMax));
     box.setAttribute("day-of-week", timestampToDayName(day.time));
-    document.body.appendChild(box);
+    document.getElementById("main").appendChild(box);
 }
 
 function getTemperatureRange(daily) {
@@ -190,8 +190,8 @@ function generateMainInfo() {
     container.appendChild(generateIcon(darksky.currently, 128));
     container.appendChild(generateCurrentWeather());
     container.appendChild(generateAir());
-    container.appendChild(generateHourlyBar());
-    document.body.appendChild(container);
+    //container.appendChild(generateHourlyBar());
+    document.getElementById("main").appendChild(container);
 }
 
 function generateDailyWeather() {
@@ -204,13 +204,10 @@ function generateDailyWeather() {
     applyCss(`.temperature-range { grid-template-columns: repeat(${range}, 1fr); }`);
 }
 
-function generateFooter() { // !!!
-}
-
 function init() {
     generateMainInfo();
     generateDailyWeather();
-    generateFooter();
+    generateTimestamp();
 }
 
 if (document.readyState != "loading")
