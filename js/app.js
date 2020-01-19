@@ -207,7 +207,6 @@ function generateDailyWeather() {
 function init() {
     generateMainInfo();
     generateDailyWeather();
-    generateTimestamp();
 }
 
 if (document.readyState != "loading")
