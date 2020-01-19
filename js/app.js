@@ -43,16 +43,6 @@ function areDatesEqual(one, two) {
     return (one.toISOString().slice(0,10) === two.toISOString().slice(0,10));
 }
 
-function timestampToShortDate(timestamp) {
-    const date = getCorrectedDay(new Date(timestamp * 1000));
-    const now = getCorrectedDay(new Date());
-    if (areDatesEqual(date, now))
-        return "Dziś";
-    const months = [ "Sty", "Lut", "Mar", "Kwi", "Maj", "Cze",
-                     "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru" ];
-    return date.getDate() + " " + months[date.getMonth()];
-}
-
 function timestampToDayName(timestamp) {
     const day = getCorrectedDay(new Date(timestamp * 1000));
     let names = [];
@@ -75,10 +65,6 @@ function generateSpan(className, content) {
     span.classList.add(className);
     span.innerHTML = content;
     return span;
-}
-
-function generateSummary(day) {
-    return generateSpan("summary", day.summary);
 }
 
 function generateTemperatureBar(day, temperatureRange) {
@@ -109,12 +95,16 @@ function generateTemperatureBar(day, temperatureRange) {
 function appendWeatherBox(day, tempMinMax) {
     let box = document.createElement("div");
     box.classList.add("info-box");
-    if (isSunday(day))
+    if (isSunday(day)) {
         box.classList.add(getClassForSunday(day));
+        box.addEventListener("click", () => {
+            window.location = sundaysLink;
+        });
+    }
+    box.appendChild(generateSpan("day-of-week", timestampToDayName(day.time)));
     box.appendChild(generateIcon(day, 64));
     box.appendChild(generateTemperatureBar(day, tempMinMax));
     box.setAttribute("day-of-week", timestampToDayName(day.time));
-    box.setAttribute("day-of-month", timestampToShortDate(day.time));
     document.body.appendChild(box);
 }
 
@@ -136,56 +126,22 @@ function getAirlyMeasurements() {
     return [ level, value, Math.round(pm25), Math.round(pm10) ];
 }
 
-function appendPollutantBar(rootNode, pollutant, percentage) {
-    let name = document.createElement("span");
-    name.classList.add("name");
-    name.classList.add("pollutant");
-    name.setAttribute("pollutant", pollutant);
-    name.innerHTML = pollutant;
-
-    let fill = document.createElement("span");
-    fill.classList.add("bar");
-    fill.classList.add("pollutant");
-    fill.setAttribute("pollutant", pollutant);
-    fill.style.width = Math.min(percentage, 100) + "%";
-
-    let bg = document.createElement("span");
-    bg.classList.add("bg");
-    bg.classList.add("pollutant");
-    bg.setAttribute("pollutant", pollutant);
-
-    let value = document.createElement("span");
-    value.classList.add("percentage");
-    value.classList.add("pollutant");
-    value.setAttribute("pollutant", pollutant);
-    value.innerHTML = percentage + "%";
-
-    rootNode.appendChild(name);
-    rootNode.appendChild(fill);
-    rootNode.appendChild(bg);
-    rootNode.appendChild(value);
-}
-
 function generateAir() {
     const [ level, value, pm25percent, pm10percent ] = getAirlyMeasurements();
     
     let air = document.createElement("div");
     air.classList.add("air-quality");
-    air.style.background = new AirPollutionColorant().colorOf(value).hex;
+    air.style.color = new AirPollutionColorant().colorOf(value).hex;
+    air.appendChild(generateSpan("percentage-value", pm25percent));
+    air.appendChild(generateSpan("percentage-unit", "%"));
     
-    let index = document.createElement("span");
-    index.classList.add("value");
-    index.innerHTML = Math.round(value);
-    
-    air.appendChild(index);
-    appendPollutantBar(air, "PM2.5", pm25percent);
-    appendPollutantBar(air, "PM10", pm10percent);
+    air.appendChild(generateSpan("caqi", Math.round(value) + " CAQI"));
 
     return air;
 }
 
-function generateHourlyBar(hourly) {
-    const maxRange = Math.min(24, hourly.data.length)
+function generateHourlyBar() {
+    const maxRange = Math.min(24, darksky.hourly.data.length)
     let bar = document.createElement("div");
     bar.classList.add("hourly-bar");
     bar.style.gridTemplateColumns = `repeat(${maxRange}, 1fr)`;
@@ -193,7 +149,7 @@ function generateHourlyBar(hourly) {
     let previousStatus = "";
     let previousEnd = 0;
     for (let index = 0; index <= maxRange; index++) {
-        const hour = hourly.data[index];
+        const hour = darksky.hourly.data[index];
         let start;
         let end;
         const status = hour ? hour.icon.replace(/\-(night|day)/g, "") : "";
@@ -219,22 +175,10 @@ function generateCurrentWeather() {
     let box = document.createElement("div");
     box.classList.add("weather");
 
-    let icon = generateIcon(darksky.currently, 128);
-
-    let temperature = document.createElement("span");
-    temperature.classList.add("temperature");
-    let temperatureValue = document.createElement("span");
-    temperatureValue.innerHTML = Math.round(darksky.currently.temperature);
-    temperature.appendChild(temperatureValue);
-
-    let summary = generateSummary(darksky.currently);
+    box.appendChild(generateSpan("temperature-value", Math.round(darksky.currently.temperature)));
+    box.appendChild(generateSpan("temperature-unit", "˚C"));
     
-    let hourlyBar = generateHourlyBar(darksky.hourly);
-
-    box.appendChild(icon);
-    box.appendChild(temperature);
-    box.appendChild(summary);
-    box.appendChild(hourlyBar);
+    box.appendChild(generateSpan("apparent-temperature", Math.round(darksky.currently.apparentTemperature) + "˚C ODCZ."));
 
     return box;
 }
@@ -243,9 +187,10 @@ function generateMainInfo() {
     let container = document.createElement("div");
     container.classList.add("info-box");
     container.classList.add("current");
-    container.setAttribute("day-of-week", "teraz");
+    container.appendChild(generateIcon(darksky.currently, 128));
     container.appendChild(generateCurrentWeather());
     container.appendChild(generateAir());
+    container.appendChild(generateHourlyBar());
     document.body.appendChild(container);
 }
 

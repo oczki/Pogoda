@@ -8,8 +8,7 @@
     --panel-padding: 1rem;
     --panel-border-radius: 0.5rem;
     --temperature-bar-height: 1.25rem;
-    --pollutant-bar-height: 0.85rem;
-    --margin-between-days: 1.4rem;
+    --margin-between-days: 1.5rem;
     --color-text: #333;
     --color-accent: #333;/*#1e5799;*/
     --color-dimmed: rgba(0, 0, 0, 0.5);
@@ -18,7 +17,17 @@
     --color-panel-bg: white;
     --color-bar-bg: rgba(255, 255, 255, 0.05);
     --color-shadow: rgba(0, 0, 0, 0.07);
-    --color-page-bg: #EFEFEF;
+    --color-page-bg: #FFFFFF;
+
+    --top-container-grid-template-rows: 2fr /*auto*/;
+    --top-container-grid-template-columns: 1fr 1fr 1fr;
+    --top-container-grid-template-areas: "icon weather air"
+                                         /*"hourly hourly hourly"*/;
+
+    --top-values-grid-template-rows: auto auto;
+    --top-values-grid-template-columns: auto auto;
+    --top-values-grid-template-areas: "main-value main-unit"
+                                      "secondary secondary";
 }
 
 body {
@@ -27,6 +36,7 @@ body {
     background: var(--color-page-bg);
     color: var(--color-text);
     letter-spacing: 0.03rem;
+    font-weight: 700;
 }
 
 div.info-box {
@@ -34,55 +44,59 @@ div.info-box {
     margin: var(--margin-between-days) auto 0 auto;
     position: relative;
     display: grid;
-    grid-gap: 1rem;
 }
 
 div.info-box:not(.current) {
     grid-template-rows: auto;
-    grid-template-columns: 2rem 2.5rem 1fr;
+    grid-template-columns: 3rem 2.5rem 1fr;
     grid-template-areas: "day icon bar";
+    grid-gap: 1rem;
     align-items: center;
     width: calc(var(--panel-width) - var(--panel-padding));
 }
 
-
-
-div.info-box:not(.current):before {
-    content: attr(day-of-week);
-    width: 2rem;
+div.info-box span.day-of-week {
+    grid-area: day;
     color: var(--color-accent);
     text-transform: uppercase;
-    font-weight: 700;
+    text-align: center;
+    padding: 0.4rem 0;
+    box-sizing: border-box;
+    border-radius: 0.5rem;
 }
 
-div.info-box:not(.current)[day-of-week="Sb"]:before,
-div.info-box:not(.current)[day-of-week="Sb"]:after,
-div.info-box:not(.current)[day-of-week="Nd"]:before,
-div.info-box:not(.current)[day-of-week="Nd"]:after {
+div.info-box:nth-child(2) span.day-of-week {
+    border: 2px solid var(--color-accent);
+}
+
+div.info-box:not(.current)[day-of-week="Sb"] span.day-of-week,
+div.info-box:not(.current)[day-of-week="Nd"] span.day-of-week {
     color: var(--color-dimmed);
 }
 
-div.info-box:not(.current).shops-open:before,
-div.info-box:not(.current).shops-open:after {
+div.info-box:not(.current).shops-open span.day-of-week {
     color: var(--color-positive);
+    border-color: var(--color-positive);
 }
 
-div.info-box:not(.current).shops-closed:before,
-div.info-box:not(.current).shops-closed:after {
+div.info-box:not(.current).shops-closed span.day-of-week {
     color: var(--color-negative);
+    border-color: var(--color-negative);
 }
 
-div.info-box:not(.current).shops-closed:after {
+div.info-box:not(.current).shops-closed span.day-of-week:after {
     content: '|';
     transform: rotateZ(76deg) scaleY(1.6) scaleX(0.5);
     color: transparent;
     position: absolute;
-    left: 0.65rem;
-    font-weight: 700;
+    left: 1.3rem;
     box-shadow: inset 0px 0px 0rem 1rem var(--color-negative), -2px 0px 0 0rem var(--color-page-bg);
 }
 
-
+div.info-box:not(.current)[day-of-week="Nd"] span.day-of-week:hover {
+    cursor: pointer;
+    background: var(--color-shadow);
+}
 
 div.info-box canvas {
     grid-area: icon;
@@ -105,15 +119,12 @@ div.temperature-range span.bar {
     position: relative;
 }
 
-
-
 div.temperature-range span.bar:before,
 div.temperature-range span.bar:after {
     width: 2rem;
     letter-spacing: 0.05rem;
     position: absolute;
     font-size: 90%;
-    font-weight: 700;
 }
 
 div.temperature-range span.bar:before {
@@ -127,172 +138,116 @@ div.temperature-range span.bar:after {
     right: -2.5rem;
 }
 
-
-
 div.info-box.current {
-    background: var(--color-panel-bg);
-    border-radius: var(--panel-border-radius);
-    box-shadow: 0 0.25rem 0.5rem 0 var(--color-shadow);
     margin-bottom: 2rem;
-}
-
-div.info-box.current div.weather {
     display: grid;
-    grid-template-rows: auto 2rem;
-    grid-template-columns: 7rem 5rem 1fr;
-    grid-template-areas: "icon temperature summary"
-                         "bar  bar         bar";
-    grid-gap: 0.5rem;
-    padding: var(--panel-padding);
+    grid-template-rows: var(--top-container-grid-template-rows);
+    grid-template-columns: var(--top-container-grid-template-columns);
+    grid-template-areas: var(--top-container-grid-template-areas);
+    grid-gap: 1.5rem 0;
+    
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-shadow);
 }
 
-div.info-box.current div.weather canvas {
-    grid-area: icon;
-    width: 6rem;
-    margin: 0 auto;
-}
-
-div.info-box.current div.weather span.temperature {
-    grid-area: temperature;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--color-accent);
-}
-
-div.info-box.current div.weather span.temperature span {
-    position: relative;
-}
-
-div.info-box.current div.weather span.temperature span:after {
-    content: "˚C";
-    font-size: 40%;
-    position: absolute;
-    top: 0.3em;
-    right: -1.2em;
-}
-
-div.info-box.current div.weather span.summary {
-    grid-area: summary;
-    margin-left: 0.5rem;
-    padding-top: 0.5rem;
-    font-size: 150%;
-    color: var(--color-accent);
-    letter-spacing: 0;
-}
-
-div.info-box.current div.weather div.hourly-bar {
-    grid-area: bar;
+div.hourly-bar {
+    grid-area: hourly;
     display: grid;
     grid-template-rows: 2rem;
     border-radius: 0.25rem;
     overflow: hidden;
+    display: none;
 }
 
-div.info-box.current div.weather div.hourly-bar div {
+div.hourly-bar div {
     height: 2rem;
 }
 
-div.info-box.current div.weather div.hourly-bar div.clear {
+div.hourly-bar div.clear {
     background: #dedede;
 }
 
-div.info-box.current div.weather div.hourly-bar div.partly-cloudy {
+div.hourly-bar div.partly-cloudy {
     background: #c5c5c5;
 }
 
-div.info-box.current div.weather div.hourly-bar div.cloudy {
+div.hourly-bar div.cloudy {
     background: #9c9c9c;
 }
 
-div.info-box.current div.weather div.hourly-bar div.rain {
+div.hourly-bar div.rain {
     background: #77a5da;
 }
 
-div.info-box.current div.weather div.hourly-bar div.fog {
+div.hourly-bar div.fog {
     background: repeating-linear-gradient(to bottom, darkgrey 0, darkgrey 2px, silver 4px, silver 6px);
 }
 
 
+div.weather {
+    grid-area: weather;
+}
 
 div.air-quality {
-    background: gray;
-    color: var(--color-panel-bg);
-    display: grid;
+    grid-area: air;
+}
+
+div.weather *,
+div.air-quality * {
     height: fit-content;
-    padding: var(--panel-padding);
-    grid-template-rows: repeat(2, var(--pollutant-bar-height));
-    grid-template-columns: auto auto 1fr auto;
-    grid-template-areas: "index pm25-name pm25-bar pm25-percent"
-                         "index pm10-name pm10-bar pm10-percent";
-    grid-gap: 0.5rem;
-    border-bottom-left-radius: var(--panel-border-radius);
-    border-bottom-right-radius: var(--panel-border-radius);
+    width: fit-content;
 }
 
-div.air-quality span.value {
-    grid-area: index;
-    font-size: 2.8rem;
-    line-height: 2.2rem;
-    position: relative;
-    margin-right: 3.5rem;
+div.current canvas {
+    grid-area: icon;
+    width: 4rem;
+    margin: 0 auto;
 }
 
-div.air-quality span.value:before {
-    content: "CAQI";
-    font-size: 0.85rem;
-    line-height: 0.95rem;
-    position: absolute;
-    top: 0;
-    right: -2.5rem;
+div.weather,
+div.air-quality {
+    display: grid;
+    justify-content: center;
+    grid-template-rows: var(--top-values-grid-template-rows);
+    grid-template-columns: var(--top-values-grid-template-columns);
+    grid-template-areas: var(--top-values-grid-template-areas);
+    grid-gap: 0.5rem 0;
 }
 
-div.air-quality span.pollutant {
-    display: block;
-    height: var(--pollutant-bar-height);
-    font-size: var(--pollutant-bar-height);
-    line-height: 0.9rem;
+div.weather span.temperature-value,
+div.air-quality span.percentage-value {
+    grid-area: main-value;
+    font-size: 3.3rem;
+    line-height: 2.9rem;
+    justify-self: end;
+    font-weight: 400;
 }
 
-div.air-quality span.pollutant.name {
-    grid-area: pm25-name;
+div.weather span.temperature-unit,
+div.air-quality span.percentage-unit{
+    grid-area: main-unit;
+    font-size: 1.3rem;
 }
 
-div.air-quality span.pollutant.bar,
-div.air-quality span.pollutant.bg {
-    grid-area: pm25-bar;
-    display: block;
-    background: var(--color-panel-bg);
-    height: var(--pollutant-bar-height);
-    border-radius: var(--panel-width);
+div.weather span.apparent-temperature,
+div.air-quality span.caqi {
+    grid-area: secondary;
+    justify-self: center;
 }
 
-div.air-quality span.pollutant.bg {
-    background: var(--color-bar-bg);
+div.air-quality span.percentage-unit {
+    margin-left: 0.25rem;
 }
 
-div.air-quality span.pollutant.percentage {
-    grid-area: pm25-percent;
-    text-align: right;
-}
-
-div.air-quality span.pollutant[pollutant="PM10"].name {
-    grid-area: pm10-name;
-}
-
-div.air-quality span.pollutant[pollutant="PM10"].bar,
-div.air-quality span.pollutant[pollutant="PM10"].bg {
-    grid-area: pm10-bar;
-}
-
-div.air-quality span.pollutant[pollutant="PM10"].percentage {
-    grid-area: pm10-percent;
-}
-
-
-
-@media (min-width: 40em) and (max-width: 60em) {
+@media (min-width: 50em) and (max-width: 60em) {
 :root {
     font-size: 10pt;
+}
+}
+
+@media (min-width: 40em) and (max-width: 50em) {
+:root {
+    font-size: 9pt;
 }
 }
 

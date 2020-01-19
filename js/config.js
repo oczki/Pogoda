@@ -31,9 +31,9 @@ function skyconsColors() {
     opts["colors"]["moon"]        = "#353545";
     opts["colors"]["fog"]         = "#AAAAAA";
     opts["colors"]["fogbank"]     = "#AAAAAA";
-    opts["colors"]["light_cloud"] = "#777777";
-    opts["colors"]["cloud"]       = "#666666";
-    opts["colors"]["dark_cloud"]  = "#444444";
+    opts["colors"]["light_cloud"] = "#999999";
+    opts["colors"]["cloud"]       = "#777777";
+    opts["colors"]["dark_cloud"]  = "#555555";
     opts["colors"]["thunder"]     = "#D1D13F";
     opts["colors"]["snow"]        = "#84BCD1";
     opts["colors"]["hail"]        = "#9595C7";
@@ -41,7 +41,8 @@ function skyconsColors() {
     opts["colors"]["wind"]        = "#777777";
     opts["colors"]["leaf"]        = "#2C5228";
     opts["colors"]["rain"]        = "#2499C7";
-    opts["colors"]["sun"]         = "#e0b31d";
+    opts["colors"]["sun"]         = "#F0BE1A";
     return opts;
 }
-    
+
+const sundaysLink = "http://oczki.pl/niedziela";
