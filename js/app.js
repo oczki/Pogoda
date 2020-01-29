@@ -140,37 +140,6 @@ function generateAir() {
     return air;
 }
 
-function generateHourlyBar() {
-    const maxRange = Math.min(24, darksky.hourly.data.length)
-    let bar = document.createElement("div");
-    bar.classList.add("hourly-bar");
-    bar.style.gridTemplateColumns = `repeat(${maxRange}, 1fr)`;
-    
-    let previousStatus = "";
-    let previousEnd = 0;
-    for (let index = 0; index <= maxRange; index++) {
-        const hour = darksky.hourly.data[index];
-        let start;
-        let end;
-        const status = hour ? hour.icon.replace(/\-(night|day)/g, "") : "";
-
-        if ((previousStatus && (previousStatus != status)) || (index === maxRange)) {
-            start = previousEnd + 1;
-            end = index + 1;
-
-            let block = document.createElement("div");
-            block.classList.add(previousStatus);
-            block.style.gridColumn = `${start} / ${end}`;
-            bar.appendChild(block);
-
-            previousEnd = index;
-        }
-        previousStatus = status;
-    }
-    
-    return bar;
-}
-
 function generateCurrentWeather() {
     let box = document.createElement("div");
     box.classList.add("weather");
@@ -190,7 +159,6 @@ function generateMainInfo() {
     container.appendChild(generateIcon(darksky.currently, 128));
     container.appendChild(generateCurrentWeather());
     container.appendChild(generateAir());
-    //container.appendChild(generateHourlyBar());
     document.getElementById("main").appendChild(container);
 }
 

@@ -4,25 +4,18 @@
 :root {
     font-size: 11pt;
     --panel-width: 40rem;
-    --panel-height: 17rem;
     --panel-padding: 1rem;
-    --panel-border-radius: 0.5rem;
     --temperature-bar-height: 1.25rem;
     --margin-between-days: 1.5rem;
     --color-text: #333;
-    --color-accent: #333;/*#1e5799;*/
-    --color-dimmed: rgba(0, 0, 0, 0.5);
     --color-positive: #278454;
     --color-negative: #A93333;
-    --color-panel-bg: white;
-    --color-bar-bg: rgba(255, 255, 255, 0.05);
     --color-shadow: rgba(0, 0, 0, 0.07);
     --color-page-bg: #FFFFFF;
 
-    --top-container-grid-template-rows: 2fr /*auto*/;
+    --top-container-grid-template-rows: 1fr;
     --top-container-grid-template-columns: 1fr 1fr 1fr;
-    --top-container-grid-template-areas: "icon weather air"
-                                         /*"hourly hourly hourly"*/;
+    --top-container-grid-template-areas: "icon weather air";
 
     --top-values-grid-template-rows: auto auto;
     --top-values-grid-template-columns: auto auto;
@@ -60,7 +53,7 @@ div.info-box:not(.current) {
 
 div.info-box span.day-of-week {
     grid-area: day;
-    color: var(--color-accent);
+    color: var(--color-text);
     text-transform: uppercase;
     text-align: center;
     padding: 0.4rem 0;
@@ -69,12 +62,7 @@ div.info-box span.day-of-week {
 }
 
 div.info-box:nth-child(2) span.day-of-week {
-    border: 2px solid var(--color-accent);
-}
-
-div.info-box:not(.current)[day-of-week="Sb"] span.day-of-week,
-div.info-box:not(.current)[day-of-week="Nd"] span.day-of-week {
-    color: var(--color-dimmed);
+    border: 2px solid var(--color-text);
 }
 
 div.info-box:not(.current).shops-open span.day-of-week {
@@ -116,7 +104,7 @@ div.temperature-range {
 
 div.temperature-range span.bar {
     height: var(--temperature-bar-height);
-    background: var(--color-accent);
+    background: var(--color-text);
     border-radius: var(--panel-width);
     line-height: var(--temperature-bar-height);
     position: relative;
@@ -148,44 +136,9 @@ div.info-box.current {
     grid-template-columns: var(--top-container-grid-template-columns);
     grid-template-areas: var(--top-container-grid-template-areas);
     grid-gap: 1.5rem 0;
-    
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--color-shadow);
 }
-
-div.hourly-bar {
-    grid-area: hourly;
-    display: grid;
-    grid-template-rows: 2rem;
-    border-radius: 0.25rem;
-    overflow: hidden;
-    display: none;
-}
-
-div.hourly-bar div {
-    height: 2rem;
-}
-
-div.hourly-bar div.clear {
-    background: #dedede;
-}
-
-div.hourly-bar div.partly-cloudy {
-    background: #c5c5c5;
-}
-
-div.hourly-bar div.cloudy {
-    background: #9c9c9c;
-}
-
-div.hourly-bar div.rain {
-    background: #77a5da;
-}
-
-div.hourly-bar div.fog {
-    background: repeating-linear-gradient(to bottom, darkgrey 0, darkgrey 2px, silver 4px, silver 6px);
-}
-
 
 div.weather {
     grid-area: weather;
@@ -255,7 +208,7 @@ div#footer {
 }
 
 a {
-    color: var(--color-accent);
+    color: var(--color-text);
     text-decoration: none;
     padding: 0.5rem 0.8rem;
     border-radius: 0.5rem;
