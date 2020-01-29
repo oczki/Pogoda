@@ -1,10 +1,10 @@
-# [Live demo](http://oczki.pl/pogoda)
+# [☀️ Live demo](http://oczki.pl/pogoda)
 
 For English, scroll below.
 
 ---
 
-# Pogoda na rzut oka
+# 🌥️ Pogoda na rzut oka
 
 Wyświetla prostą, responsywną stronę z prognozą pogody i zanieczyszczeniem powietrza dla jednego, stałego miejsca. Na widoku tygodniowym zaznacza też niedziele handlowe i niehandlowe, których ostatnio coraz mniej. Oprócz podstawowego ma też ciemny theme, by nie wypalać oczu przy porannym sprawdzaniu prognozy.
 
@@ -14,7 +14,7 @@ Ikony to [kolorowe Skycons](https://github.com/maxdow/skycons) ze zmodyfikowanym
 
 Używa jednostek SI. Jeśli rozumiesz tekst jaki właśnie czytasz, prawdopodobnie właśnie tych jednostek się spodziewasz.
 
-## Instalacja
+## 🔧 Instalacja
 
 Wymagane składniki to Python 2.7 dla odpytywań API, cron wołający plik shellowy oraz PHP do cache busting.
 
@@ -28,7 +28,7 @@ To wszystko. Pamiętaj, aby nie wołać API więcej niż 1000 razy na dzień, gd
 
 ---
 
-# Weather at a glance
+# 🌥️ Weather at a glance
 
 Renders a responsive, minimal website with current weather and air pollution data, all for a hardcoded location. Also marks whether shops are open or closed on Sundays in Poland. Has a light and dark theme, so your eyes don't have to burn when you check the forecast.
 
@@ -38,7 +38,7 @@ Icons were taken from [colored Skycons](https://github.com/maxdow/skycons), with
 
 Uses SI units. Look up respective API docs on how to change that to ones you prefer.
 
-## Installation
+## 🔧 Installation
 
 You'll need Python 2.7 for API calls, cron to make them automatically, and PHP for cache busting.
 
