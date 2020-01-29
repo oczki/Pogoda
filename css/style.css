@@ -7,11 +7,19 @@
     --panel-padding: 1rem;
     --temperature-bar-height: 1.25rem;
     --margin-between-days: 1.5rem;
-    --color-text: #333;
+
     --color-positive: #278454;
     --color-negative: #A93333;
-    --color-shadow: rgba(0, 0, 0, 0.07);
-    --color-page-bg: #FFFFFF;
+
+    --color-lightmode-text: #333;
+    --color-lightmode-shadow: rgba(0, 0, 0, 0.07);
+    --color-lightmode-page-bg: #FFF;
+    --filter-black-to-dark: invert(13%) sepia(50%) saturate(0%) hue-rotate(237deg) brightness(97%) contrast(82%);
+
+    --color-darkmode-text: #AAA;
+    --color-darkmode-shadow: rgba(255, 255, 255, 0.15);
+    --color-darkmode-page-bg: #000;
+    --filter-black-to-light: invert(78%) sepia(1%) saturate(0%) hue-rotate(171deg) brightness(89%) contrast(86%);
 
     --top-container-grid-template-rows: 1fr;
     --top-container-grid-template-columns: 1fr 1fr 1fr;
@@ -30,9 +38,18 @@ body {
     color: var(--color-text);
     letter-spacing: 0.03rem;
     font-weight: 700;
-    display: grid;
-    align-content: space-between;
-    height: 100vh;
+    
+    --color-text: var(--color-lightmode-text);
+    --color-shadow: var(--color-lightmode-shadow);
+    --color-page-bg: var(--color-lightmode-page-bg);
+    --filter: var(--filter-black-to-dark);
+}
+
+body.dark {
+    --color-text: var(--color-darkmode-text);
+    --color-shadow: var(--color-darkmode-shadow);
+    --color-page-bg: var(--color-darkmode-page-bg);
+    --filter: var(--filter-black-to-light);
 }
 
 div.info-box {
@@ -197,10 +214,11 @@ div.air-quality span.percentage-unit {
 
 div#footer {
     width: var(--panel-width);
-    margin: var(--margin-between-days) auto 1.5rem auto;
+    margin: 2rem auto 1.5rem auto;
     display: grid;
-    grid-template-areas: "github darksky airly";
+    grid-template-areas: "github darksky airly toggle";
     justify-content: space-between;
+    align-items: center;
     padding-top: 2rem;
     border-top: 1px solid var(--color-shadow);
     font-size: 0.8rem;
@@ -216,6 +234,39 @@ a {
 
 a:hover, a:focus {
     background: var(--color-shadow);
+}
+
+div#footer label#dark-mode {
+    grid-area: toggle;
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+}
+
+div#footer label#dark-mode:before {
+    content: '';
+    background-image: url(../img/light-dark.svg);
+    background-size: 1rem 1rem;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    filter: var(--filter);
+}
+
+div#footer label#dark-mode:hover {
+    background-color: var(--color-shadow);
+    cursor: pointer;
+}
+
+div#footer input#dark-mode-checkbox {
+    display: none;
 }
 
 div#footer span#github-link {

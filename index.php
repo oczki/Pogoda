@@ -16,6 +16,7 @@ function addJs($path) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="initial-scale=1.0, width=device-width">
+        <meta name="theme-color" content="#FFFFFF">
         <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
         <meta property="og:locale" content="pl_PL"/>
         <meta property="og:title" content="Aktualna pogoda, zanieczyszczenie powietrza i niedziele handlowe"/>
@@ -39,6 +40,9 @@ function addJs($path) {
             <span id="github-link"><a href="https://github.com/tehoko/Pogoda">GitHub</a></span>
             <span id="darksky-link"><a href="https://darksky.net/poweredby/">Powered by Dark Sky</a></span>
             <span id="airly-link"><a href="https://airly.eu/">Dane z Airly</a></span>
+            <label id="dark-mode">
+                <input id="dark-mode-checkbox" type="checkbox"/>
+            </label>
         </div>
     </body>
 </html>

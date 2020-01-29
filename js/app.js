@@ -82,8 +82,8 @@ function generateTemperatureBar(day, temperatureRange) {
     const columnEnd = columnStart + tempMax - tempMin;
     bar.style.gridArea = `1 / ${columnStart} / -1 / ${columnEnd}`;
     bar.style.background = colorant.gradient(tempMin, tempMax);
-    applyCss(`.day-${day.time}:before { color: ${darken(colorant.colorOf(tempMin), 0.2).hex}; }
-.day-${day.time}:after  { color: ${darken(colorant.colorOf(tempMax), 0.2).hex}; }`);
+    applyCss(`.day-${day.time}:before { color: ${darken(colorant.colorOf(tempMin), 0.1).hex}; }
+.day-${day.time}:after  { color: ${darken(colorant.colorOf(tempMax), 0.1).hex}; }`);
 
     let container = document.createElement("div");
     container.classList.add("temperature-range");
@@ -172,9 +172,28 @@ function generateDailyWeather() {
     applyCss(`.temperature-range { grid-template-columns: repeat(${range}, 1fr); }`);
 }
 
+function setDarkModeState(state) {
+    localStorage.setItem('dark-mode', state);
+    document.body.classList.toggle("dark", state);
+    requestAnimationFrame(() => {
+        const bgColor = window.getComputedStyle(document.body).backgroundColor;
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', bgColor);
+    });
+}
+
+function handleDarkModeToggle() {
+    const toggle = document.getElementById("dark-mode-checkbox");
+    toggle.checked = localStorage.getItem('dark-mode') === 'true';
+    setDarkModeState(toggle.checked);
+    toggle.addEventListener("change", (ev) => {
+        setDarkModeState(ev.currentTarget.checked);
+    });
+}
+
 function init() {
     generateMainInfo();
     generateDailyWeather();
+    handleDarkModeToggle();
 }
 
 if (document.readyState != "loading")
