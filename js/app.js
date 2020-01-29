@@ -95,13 +95,14 @@ function generateTemperatureBar(day, temperatureRange) {
 function appendWeatherBox(day, tempMinMax) {
     let box = document.createElement("div");
     box.classList.add("info-box");
+    const dayOfWeekSpan = generateSpan("day-of-week", timestampToDayName(day.time));
     if (isSunday(day)) {
         box.classList.add(getClassForSunday(day));
-        box.addEventListener("click", () => {
+        dayOfWeekSpan.addEventListener("click", () => {
             window.location = sundaysLink;
         });
     }
-    box.appendChild(generateSpan("day-of-week", timestampToDayName(day.time)));
+    box.appendChild(dayOfWeekSpan);
     box.appendChild(generateIcon(day, 64));
     box.appendChild(generateTemperatureBar(day, tempMinMax));
     box.setAttribute("day-of-week", timestampToDayName(day.time));
